@@ -33,12 +33,20 @@ export async function createProject(token: string, data: Omit<Project, "id">) {
   return response.data;
 }
 
-export async function updateProject(token: string, projectId: number, data: Partial<Project>) {
-  const response = await axios.put<Project>(`${API_URL}/projects/${projectId}`, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+export async function updateProject(
+  token: string,
+  projectId: number,
+  data: Partial<Project>,
+) {
+  const response = await axios.put<Project>(
+    `${API_URL}/projects/${projectId}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   return response.data;
 }

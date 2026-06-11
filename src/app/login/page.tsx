@@ -4,12 +4,14 @@ import { useState } from "react";
 import { login } from "@/services/auth.service";
 import { getErrorMessage } from "@/lib/errors";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 import { Container, Form, Button, Card, Alert } from "react-bootstrap";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { refreshUser } = useAuth();
 
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -20,9 +22,12 @@ export default function LoginPage() {
     setError(null);
 
     try {
-      const result = await login(email, password);
+      const result = await login(username, password);
 
       localStorage.setItem("access_token", result.access_token);
+
+      // Refresh user context
+      await refreshUser();
 
       console.log("Login successful", result);
       router.push("/dashboard");
@@ -43,11 +48,11 @@ export default function LoginPage() {
 
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
+              <Form.Label>Usuario</Form.Label>
               <Form.Control
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </Form.Group>

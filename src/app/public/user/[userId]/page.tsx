@@ -2,6 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { getProfilePublic } from "@/services/profile.service";
+import {
+  getEducationPublic,
+  getExperiencesPublic,
+} from "@/services/cv.service";
 import { Profile } from "@/types/profile";
 import { Experience } from "@/types/experience";
 import { Education } from "@/types/education";
@@ -50,18 +55,8 @@ export default function PublicUserDashboard() {
           const firstProfile = allProfiles[0];
           setSelectedProfile(firstProfile);
           try {
-            const exRes = await fetch(
-              `http://localhost:8000/profiles/${firstProfile.id}/experience/`,
-            );
-            if (exRes.ok) {
-              setExperiences(await exRes.json());
-            }
-            const eduRes = await fetch(
-              `http://localhost:8000/profiles/${firstProfile.id}/education/`,
-            );
-            if (eduRes.ok) {
-              setEducation(await eduRes.json());
-            }
+            setExperiences(await getExperiencesPublic(firstProfile.id));
+            setEducation(await getEducationPublic(firstProfile.id));
           } catch (err) {
             console.error("Error loading experience/education", err);
           }
@@ -99,18 +94,8 @@ export default function PublicUserDashboard() {
                   if (profile) {
                     setSelectedProfile(profile);
                     try {
-                      const exRes = await fetch(
-                        `http://localhost:8000/profiles/${profile.id}/experience/`,
-                      );
-                      if (exRes.ok) {
-                        setExperiences(await exRes.json());
-                      }
-                      const eduRes = await fetch(
-                        `http://localhost:8000/profiles/${profile.id}/education/`,
-                      );
-                      if (eduRes.ok) {
-                        setEducation(await eduRes.json());
-                      }
+                      setExperiences(await getExperiencesPublic(profile.id));
+                      setEducation(await getEducationPublic(profile.id));
                     } catch (err) {
                       console.error("Error loading profile data", err);
                     }

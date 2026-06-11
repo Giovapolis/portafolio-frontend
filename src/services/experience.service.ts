@@ -8,7 +8,10 @@ export async function getExperience(): Promise<Experience[]> {
   return response.data;
 }
 
-export async function createExperience(token: string, data: Partial<Experience>) {
+export async function createExperience(
+  token: string,
+  data: Partial<Experience>,
+) {
   const response = await axios.post<Experience>(`${API_URL}/experience`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -23,11 +26,15 @@ export async function updateExperience(
   expId: number,
   data: Partial<Experience>,
 ) {
-  const response = await axios.put<Experience>(`${API_URL}/experience/${expId}`, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+  const response = await axios.put<Experience>(
+    `${API_URL}/experience/${expId}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   return response.data;
 }

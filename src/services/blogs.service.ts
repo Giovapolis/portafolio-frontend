@@ -24,7 +24,10 @@ export async function getBlog(slug: string): Promise<Blog> {
   return response.data;
 }
 
-export async function createBlog(token: string, data: Omit<Blog, "id" | "created_at" | "updated_at">) {
+export async function createBlog(
+  token: string,
+  data: Omit<Blog, "id" | "created_at" | "updated_at">,
+) {
   const response = await axios.post<Blog>(`${API_URL}/blog`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -34,7 +37,11 @@ export async function createBlog(token: string, data: Omit<Blog, "id" | "created
   return response.data;
 }
 
-export async function updateBlog(token: string, postId: number, data: Partial<Omit<Blog, "id" | "created_at" | "updated_at">>) {
+export async function updateBlog(
+  token: string,
+  postId: number,
+  data: Partial<Omit<Blog, "id" | "created_at" | "updated_at">>,
+) {
   const response = await axios.put<Blog>(`${API_URL}/blog/${postId}`, data, {
     headers: {
       Authorization: `Bearer ${token}`,

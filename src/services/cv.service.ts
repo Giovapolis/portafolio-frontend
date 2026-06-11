@@ -9,14 +9,12 @@ export async function getEducation(
   token: string,
   profileId: number,
 ): Promise<Education[]> {
-  const response = await axios.get(
-    `${API_URL}/profiles/${profileId}/education/`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+  const response = await axios.get(`${API_URL}/education/`, {
+    params: { profile_id: profileId },
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
-  );
+  });
   return response.data;
 }
 
@@ -24,9 +22,9 @@ export async function getEducation(
 export async function getEducationPublic(
   profileId: number,
 ): Promise<Education[]> {
-  const response = await axios.get(
-    `${API_URL}/profiles/${profileId}/education/`,
-  );
+  const response = await axios.get(`${API_URL}/education/`, {
+    params: { profile_id: profileId },
+  });
   return response.data;
 }
 
@@ -36,8 +34,8 @@ export async function createEducation(
   data: Partial<Education>,
 ) {
   const response = await axios.post(
-    `${API_URL}/profiles/${profileId}/education/`,
-    data,
+    `${API_URL}/education/`,
+    { ...data, profile_id: profileId },
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -54,7 +52,7 @@ export async function updateEducation(
   data: Partial<Education>,
 ) {
   const response = await axios.put(
-    `${API_URL}/profiles/${profileId}/education/${educationId}`,
+    `${API_URL}/education/${educationId}`,
     data,
     {
       headers: {
@@ -70,14 +68,11 @@ export async function deleteEducation(
   profileId: number,
   educationId: number,
 ) {
-  await axios.delete(
-    `${API_URL}/profiles/${profileId}/education/${educationId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+  await axios.delete(`${API_URL}/education/${educationId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
-  );
+  });
 }
 
 // EXPERIENCE ENDPOINTS
@@ -87,15 +82,12 @@ export async function getExperiences(
   limit: number = 10,
   offset: number = 0,
 ): Promise<Experience[]> {
-  const response = await axios.get(
-    `${API_URL}/profiles/${profileId}/experience/`,
-    {
-      params: { limit, offset },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+  const response = await axios.get(`${API_URL}/experience/`, {
+    params: { limit, offset, profile_id: profileId },
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
-  );
+  });
   return response.data;
 }
 
@@ -104,12 +96,9 @@ export async function getExperiencesPublic(
   limit: number = 10,
   offset: number = 0,
 ): Promise<Experience[]> {
-  const response = await axios.get(
-    `${API_URL}/profiles/${profileId}/experience/`,
-    {
-      params: { limit, offset },
-    },
-  );
+  const response = await axios.get(`${API_URL}/experience/`, {
+    params: { limit, offset, profile_id: profileId },
+  });
   return response.data;
 }
 
@@ -118,15 +107,11 @@ export async function createExperience(
   profileId: number,
   data: Partial<Experience>,
 ) {
-  const response = await axios.post(
-    `${API_URL}/profiles/${profileId}/experience/`,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+  const response = await axios.post(`${API_URL}/experience/`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
-  );
+  });
   return response.data;
 }
 
@@ -137,7 +122,7 @@ export async function updateExperience(
   data: Partial<Experience>,
 ) {
   const response = await axios.put(
-    `${API_URL}/profiles/${profileId}/experience/${experienceId}`,
+    `${API_URL}/experience/${experienceId}`,
     data,
     {
       headers: {
@@ -153,20 +138,17 @@ export async function deleteExperience(
   profileId: number,
   experienceId: number,
 ) {
-  await axios.delete(
-    `${API_URL}/profiles/${profileId}/experience/${experienceId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+  await axios.delete(`${API_URL}/experience/${experienceId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
-  );
+  });
 }
 
 // CV PDF ENDPOINT
 export async function downloadCVPDF(token?: string): Promise<Blob> {
   const headers: Record<string, string> = {};
-  
+
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }

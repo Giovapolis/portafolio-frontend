@@ -12,16 +12,23 @@ export interface LoginResponse {
   };
 }
 
-export async function login(email: string, password: string): Promise<LoginResponse> {
+export async function login(
+  username: string,
+  password: string,
+): Promise<LoginResponse> {
   const formData = new URLSearchParams();
-  formData.append("username", email);
+  formData.append("username", username);
   formData.append("password", password);
 
-  const response = await axios.post<LoginResponse>(`${API_URL}/users/login`, formData, {
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
+  const response = await axios.post<LoginResponse>(
+    `${API_URL}/users/login`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
     },
-  });
+  );
 
   return response.data;
 }
@@ -33,6 +40,9 @@ export interface RegisterData {
 }
 
 export async function register(data: RegisterData): Promise<LoginResponse> {
-  const response = await axios.post<LoginResponse>(`${API_URL}/users/register`, data);
+  const response = await axios.post<LoginResponse>(
+    `${API_URL}/users/register`,
+    data,
+  );
   return response.data;
 }

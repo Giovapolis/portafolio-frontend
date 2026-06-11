@@ -25,12 +25,20 @@ export async function createSkill(token: string, data: Omit<Skill, "id">) {
   return response.data;
 }
 
-export async function updateSkill(token: string, skillId: number, data: Partial<Skill>) {
-  const response = await axios.put<Skill>(`${API_URL}/skills/${skillId}`, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+export async function updateSkill(
+  token: string,
+  skillId: number,
+  data: Partial<Skill>,
+) {
+  const response = await axios.put<Skill>(
+    `${API_URL}/skills/${skillId}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   return response.data;
 }

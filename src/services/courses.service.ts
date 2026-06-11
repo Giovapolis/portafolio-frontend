@@ -25,12 +25,20 @@ export async function createCourse(token: string, data: Omit<Course, "id">) {
   return response.data;
 }
 
-export async function updateCourse(token: string, courseId: number, data: Partial<Course>) {
-  const response = await axios.put<Course>(`${API_URL}/courses/${courseId}`, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
+export async function updateCourse(
+  token: string,
+  courseId: number,
+  data: Partial<Course>,
+) {
+  const response = await axios.put<Course>(
+    `${API_URL}/courses/${courseId}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     },
-  });
+  );
 
   return response.data;
 }
