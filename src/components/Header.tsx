@@ -13,12 +13,13 @@ export default function Header() {
         <Navbar.Brand href="/" className="fw-bold fs-5">
           Giovapolis
           <Image
-            src="/next.svg"
+            src="/logo.png"
             alt="Giovapolis Logo"
             width="30"
             height="30"
             className="d-inline-block align-top ms-2"
           />
+          {""}
         </Navbar.Brand>
 
         <Navbar.Collapse id="basic-navbar-nav">

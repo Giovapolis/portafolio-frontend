@@ -22,9 +22,9 @@ export default function ProfileForm({ profile, onSave }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4 themed-card p-4">
       <input
-        className="w-full border p-2"
+        className="form-control"
         placeholder="Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
@@ -32,7 +32,7 @@ export default function ProfileForm({ profile, onSave }: Props) {
       />
 
       <input
-        className="w-full border p-2"
+        className="form-control"
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
@@ -40,7 +40,7 @@ export default function ProfileForm({ profile, onSave }: Props) {
       />
 
       <textarea
-        className="w-full border p-2"
+        className="form-control"
         placeholder="Summary"
         value={summary}
         onChange={(e) => setSummary(e.target.value)}
@@ -49,7 +49,7 @@ export default function ProfileForm({ profile, onSave }: Props) {
       <button
         type="submit"
         disabled={saving}
-        className="bg-black text-white px-4 py-2 rounded disabled:opacity-50"
+        className="btn btn-primary glow-btn w-100"
       >
         {saving ? "Saving..." : "Save Profile"}
       </button>

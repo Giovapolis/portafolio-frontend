@@ -34,11 +34,11 @@ export default function ExperienceForm({ onSave }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 border p-4 rounded">
-      <h3 className="text-lg font-semibold">Add Experience</h3>
+    <form onSubmit={handleSubmit} className="space-y-4 themed-card p-3">
+      <h3 className="text-lg font-semibold section-title">Add Experience</h3>
 
       <input
-        className="border p-2 w-full"
+        className="form-control"
         placeholder="Company"
         value={company}
         onChange={(e) => setCompany(e.target.value)}
@@ -46,7 +46,7 @@ export default function ExperienceForm({ onSave }: Props) {
       />
 
       <input
-        className="border p-2 w-full"
+        className="form-control"
         placeholder="Role"
         value={role}
         onChange={(e) => setRole(e.target.value)}
@@ -54,7 +54,7 @@ export default function ExperienceForm({ onSave }: Props) {
       />
 
       <textarea
-        className="border p-2 w-full"
+        className="form-control"
         placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
@@ -63,7 +63,7 @@ export default function ExperienceForm({ onSave }: Props) {
 
       <input
         type="date"
-        className="border p-2 w-full"
+        className="form-control"
         value={startDate}
         onChange={(e) => setStartDate(e.target.value)}
         required
@@ -71,7 +71,7 @@ export default function ExperienceForm({ onSave }: Props) {
 
       <input
         type="date"
-        className="border p-2 w-full"
+        className="form-control"
         placeholder="End Date (optional)"
         value={endDate}
         onChange={(e) => setEndDate(e.target.value)}
@@ -80,7 +80,7 @@ export default function ExperienceForm({ onSave }: Props) {
       <button
         type="submit"
         disabled={saving}
-        className="bg-black text-white px-4 py-2 rounded disabled:opacity-50"
+        className="btn btn-primary glow-btn w-100"
       >
         {saving ? "Saving..." : "Add Experience"}
       </button>
