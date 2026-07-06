@@ -1,7 +1,13 @@
 export interface Profile {
   id: number;
-  user_id: number;
   name: string;
   title: string;
-  summary?: string;
+  bio: string;
+  email: string;
+  phone: string;
+  website: string;
+  github: string;
+  linkedin: string;
+  location: string;
+  photo_url: string;
 }

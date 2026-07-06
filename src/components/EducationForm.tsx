@@ -31,46 +31,58 @@ export default function EducationForm({ onSave }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 border p-4 rounded">
-      <h3 className="text-lg font-semibold">Add Education</h3>
+    <form onSubmit={handleSubmit} className="control-panel">
+      <h3 className="section-heading h5 mb-3">Add Education</h3>
 
-      <input
-        className="border p-2 w-full"
-        placeholder="Institution"
-        value={institution}
-        onChange={(e) => setInstitution(e.target.value)}
-        required
-      />
+      <div className="mb-3">
+        <label className="form-label">Institution</label>
+        <input
+          className="form-control"
+          placeholder="Institution"
+          value={institution}
+          onChange={(e) => setInstitution(e.target.value)}
+          required
+        />
+      </div>
 
-      <input
-        className="border p-2 w-full"
-        placeholder="Degree"
-        value={degree}
-        onChange={(e) => setDegree(e.target.value)}
-        required
-      />
+      <div className="mb-3">
+        <label className="form-label">Degree</label>
+        <input
+          className="form-control"
+          placeholder="Degree"
+          value={degree}
+          onChange={(e) => setDegree(e.target.value)}
+          required
+        />
+      </div>
 
-      <textarea
-        className="border p-2 w-full"
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        required
-      />
+      <div className="mb-3">
+        <label className="form-label">Description</label>
+        <textarea
+          className="form-control"
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
+      </div>
 
-      <input
-        type="text"
-        className="border p-2 w-full"
-        placeholder="Year (e.g., 2020-2023)"
-        value={year}
-        onChange={(e) => setYear(e.target.value)}
-        required
-      />
+      <div className="mb-4">
+        <label className="form-label">Year</label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Year (e.g., 2020-2023)"
+          value={year}
+          onChange={(e) => setYear(e.target.value)}
+          required
+        />
+      </div>
 
       <button
         type="submit"
         disabled={saving}
-        className="bg-black text-white px-4 py-2 rounded disabled:opacity-50"
+        className="btn btn-primary glow-btn w-100"
       >
         {saving ? "Saving..." : "Add Education"}
       </button>

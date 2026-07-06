@@ -21,7 +21,7 @@ export async function login(
   formData.append("password", password);
 
   const response = await axios.post<LoginResponse>(
-    `${API_URL}/users/login`,
+    `${API_URL}/auth/login`,
     formData,
     {
       headers: {
@@ -30,19 +30,5 @@ export async function login(
     },
   );
 
-  return response.data;
-}
-
-export interface RegisterData {
-  username: string;
-  email: string;
-  password: string;
-}
-
-export async function register(data: RegisterData): Promise<LoginResponse> {
-  const response = await axios.post<LoginResponse>(
-    `${API_URL}/users/register`,
-    data,
-  );
   return response.data;
 }

@@ -24,6 +24,7 @@ export default function ExperienceForm({ onSave }: Props) {
       description,
       start_date: startDate,
       end_date: endDate || undefined,
+      order: 0,
     });
     setSaving(false);
     setCompany("");
@@ -34,48 +35,63 @@ export default function ExperienceForm({ onSave }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 themed-card p-3">
-      <h3 className="text-lg font-semibold section-title">Add Experience</h3>
+    <form onSubmit={handleSubmit} className="control-panel">
+      <h3 className="section-heading h5 mb-3">Add Experience</h3>
 
-      <input
-        className="form-control"
-        placeholder="Company"
-        value={company}
-        onChange={(e) => setCompany(e.target.value)}
-        required
-      />
+      <div className="mb-3">
+        <label className="form-label">Company</label>
+        <input
+          className="form-control"
+          placeholder="Company"
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+          required
+        />
+      </div>
 
-      <input
-        className="form-control"
-        placeholder="Role"
-        value={role}
-        onChange={(e) => setRole(e.target.value)}
-        required
-      />
+      <div className="mb-3">
+        <label className="form-label">Role</label>
+        <input
+          className="form-control"
+          placeholder="Role"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          required
+        />
+      </div>
 
-      <textarea
-        className="form-control"
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        required
-      />
+      <div className="mb-3">
+        <label className="form-label">Description</label>
+        <textarea
+          className="form-control"
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          required
+        />
+      </div>
 
-      <input
-        type="date"
-        className="form-control"
-        value={startDate}
-        onChange={(e) => setStartDate(e.target.value)}
-        required
-      />
+      <div className="mb-3">
+        <label className="form-label">Start date</label>
+        <input
+          type="date"
+          className="form-control"
+          value={startDate}
+          onChange={(e) => setStartDate(e.target.value)}
+          required
+        />
+      </div>
 
-      <input
-        type="date"
-        className="form-control"
-        placeholder="End Date (optional)"
-        value={endDate}
-        onChange={(e) => setEndDate(e.target.value)}
-      />
+      <div className="mb-4">
+        <label className="form-label">End date</label>
+        <input
+          type="date"
+          className="form-control"
+          placeholder="End Date (optional)"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
+      </div>
 
       <button
         type="submit"

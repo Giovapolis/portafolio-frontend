@@ -9,7 +9,7 @@ export interface User {
 }
 
 export async function getCurrentUser(token: string): Promise<User> {
-  const response = await axios.get<User>(`${API_URL}/users/me`, {
+  const response = await axios.get<User>(`${API_URL}/auth/me`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

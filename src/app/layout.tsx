@@ -17,8 +17,12 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body>
-        <Header />
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <div className="app-shell">
+            <Header />
+            <main>{children}</main>
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );
