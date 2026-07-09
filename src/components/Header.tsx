@@ -9,9 +9,12 @@ export default function Header() {
   return (
     <Navbar expand="lg" className="circuit-nav">
       <Container>
-        <Navbar.Brand href="/" className="circuit-brand fw-bold fs-5 d-flex align-items-center">
-          <span className="brand-chip">G</span>
-          <span>Giovapolis CV</span>
+        <Navbar.Brand href="/" className="circuit-brand fw-bold fs-5 d-flex align-items-center gap-2">
+          <span className="brand-chip">B</span>
+          <span className="d-flex flex-column lh-1">
+            <span className="brand-name">Brandon G. Castañón</span>
+            <span className="brand-sub">Software Engineer</span>
+          </span>
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -21,7 +24,7 @@ export default function Header() {
             {user ? (
               <>
                 <Button href="/dashboard" variant="primary" className="text-white">
-                  Dashboard
+                  Panel
                 </Button>
                 <Button
                   variant="danger"
@@ -30,12 +33,12 @@ export default function Header() {
                     window.location.href = "/";
                   }}
                 >
-                  Logout
+                  Salir
                 </Button>
               </>
             ) : (
               <Button href="/login" variant="dark">
-                Login
+                Acceder
               </Button>
             )}
           </Nav>

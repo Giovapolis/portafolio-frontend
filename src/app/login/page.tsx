@@ -34,59 +34,45 @@ export default function LoginPage() {
   }
 
   return (
-    <Container className="cv-page">
-      <div className="auth-grid">
-        <section className="auth-art">
-          <span className="eyebrow">Admin access</span>
-          <h1 className="display-cv">CV control room.</h1>
-          <p className="lead-cv">
-            Sign in to update your professional profile, experience, skills,
-            and portfolio content.
-          </p>
-          <div className="signal-map mt-4" aria-hidden="true" />
-        </section>
+    <Container className="cv-page d-flex align-items-center justify-content-center" style={{ minHeight: "calc(100vh - 80px)" }}>
+      <Card style={{ width: "100%", maxWidth: 420 }}>
+        <Card.Body className="p-4">
+          <h1 className="display-cv text-center mb-4">Panel de control.</h1>
 
-        <Card className="auth-panel">
-          <Card.Body className="p-0">
-            <span className="eyebrow">Authentication</span>
-            <Card.Title className="section-heading h2 mb-2">Welcome back</Card.Title>
-            <p className="section-copy mb-4">Enter your admin credentials.</p>
+          {error && <Alert variant="danger">{error}</Alert>}
 
-            {error && <Alert variant="danger">{error}</Alert>}
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Usuario</Form.Label>
+              <Form.Control
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
-              </Form.Group>
+            <Form.Group className="mb-4">
+              <Form.Label>Contraseña</Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </Form.Group>
 
-              <Form.Group className="mb-4">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </Form.Group>
-
-              <Button
-                variant="dark"
-                type="submit"
-                disabled={loading}
-                className="w-100"
-              >
-                {loading ? "Signing in..." : "Sign in"}
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
-      </div>
+            <Button
+              variant="dark"
+              type="submit"
+              disabled={loading}
+              className="w-100"
+            >
+              {loading ? "Ingresando..." : "Ingresar"}
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
     </Container>
   );
 }

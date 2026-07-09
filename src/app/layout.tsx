@@ -3,10 +3,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import Header from "@/components/Header";
 import { AuthProvider } from "@/context/AuthContext";
+import { ToastProvider } from "@/context/ToastContext";
 
 export const metadata: Metadata = {
-  title: "Giovapolis | Professional CV",
-  description: "Professional CV and portfolio",
+  title: "Brandon G. Castañón | Software Engineer & Full Stack Developer",
+  description: "Professional portfolio and CV of Brandon Giovanni Castañón García — Software Engineering, Full Stack Development, and technical projects.",
 };
 
 export default function RootLayout({
@@ -16,12 +17,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body>
+      <body suppressHydrationWarning>
         <AuthProvider>
-          <div className="app-shell">
-            <Header />
-            <main>{children}</main>
-          </div>
+          <ToastProvider>
+            <div className="app-shell">
+              <Header />
+              <main>{children}</main>
+            </div>
+          </ToastProvider>
         </AuthProvider>
       </body>
     </html>

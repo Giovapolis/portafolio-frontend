@@ -3,6 +3,7 @@
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 import { getProfile, updateProfile } from "@/services/profile.service";
 import { getExperience, createExperience, deleteExperience } from "@/services/experience.service";
 import { getEducation, createEducation, deleteEducation } from "@/services/cv.service";
@@ -18,6 +19,8 @@ import { Project } from "@/services/projects.service";
 import { Course } from "@/services/courses.service";
 import { Blog } from "@/services/blogs.service";
 import ProfileForm from "@/components/ProfileForm";
+import EmptyState from "@/components/ui/EmptyState";
+import { PageSkeleton } from "@/components/ui/Skeleton";
 import {
   Container, Row, Col, Card, Spinner, Alert, Button, Form,
 } from "react-bootstrap";
@@ -105,10 +108,10 @@ export default function DashboardPage() {
     try {
       const updated = await updateProfile(token, data);
       setProfile(updated);
-      setError(null);
+      toast.success("Profile saved");
     } catch (err) {
       console.error(err);
-      setError("Failed to update profile");
+      toast.error("Failed to update profile");
     }
   }
 
@@ -125,10 +128,10 @@ export default function DashboardPage() {
       });
       setExperiences(await getExperience());
       setNewExpCompany(""); setNewExpRole(""); setNewExpDesc(""); setNewExpStart("");
-      setError(null);
+      toast.success("Experience added");
     } catch (err) {
       console.error(err);
-      setError("Failed to add experience");
+      toast.error("Failed to add experience");
     }
   }
 
@@ -138,9 +141,10 @@ export default function DashboardPage() {
     try {
       await deleteExperience(token, id);
       setExperiences(await getExperience());
+      toast.success("Experience deleted");
     } catch (err) {
       console.error(err);
-      setError("Failed to delete experience");
+      toast.error("Failed to delete experience");
     }
   }
 
@@ -156,10 +160,10 @@ export default function DashboardPage() {
       });
       setEducationList(await getEducation());
       setNewInst(""); setNewDegree(""); setNewEduDesc(""); setNewYear("");
-      setError(null);
+      toast.success("Education added");
     } catch (err) {
       console.error(err);
-      setError("Failed to add education");
+      toast.error("Failed to add education");
     }
   }
 
@@ -169,9 +173,10 @@ export default function DashboardPage() {
     try {
       await deleteEducation(token, id);
       setEducationList(await getEducation());
+      toast.success("Education deleted");
     } catch (err) {
       console.error(err);
-      setError("Failed to delete education");
+      toast.error("Failed to delete education");
     }
   }
 
@@ -187,10 +192,10 @@ export default function DashboardPage() {
       });
       setSkills(await getSkills());
       setNewSkillName(""); setNewSkillLevel(50); setNewSkillCat("");
-      setError(null);
+      toast.success("Skill added");
     } catch (err) {
       console.error(err);
-      setError("Failed to add skill");
+      toast.error("Failed to add skill");
     }
   }
 
@@ -200,9 +205,10 @@ export default function DashboardPage() {
     try {
       await deleteSkill(token, id);
       setSkills(await getSkills());
+      toast.success("Skill deleted");
     } catch (err) {
       console.error(err);
-      setError("Failed to delete skill");
+      toast.error("Failed to delete skill");
     }
   }
 
@@ -220,10 +226,10 @@ export default function DashboardPage() {
       });
       setProjects(await getProjects());
       setNewProjTitle(""); setNewProjDesc(""); setNewProjUrl("");
-      setError(null);
+      toast.success("Project added");
     } catch (err) {
       console.error(err);
-      setError("Failed to add project");
+      toast.error("Failed to add project");
     }
   }
 
@@ -233,9 +239,10 @@ export default function DashboardPage() {
     try {
       await deleteProject(token, id);
       setProjects(await getProjects());
+      toast.success("Project deleted");
     } catch (err) {
       console.error(err);
-      setError("Failed to delete project");
+      toast.error("Failed to delete project");
     }
   }
 
@@ -250,10 +257,10 @@ export default function DashboardPage() {
       });
       setCourses(await getCourses());
       setNewCourseTitle(""); setNewCoursePlat(""); setNewCourseCert("");
-      setError(null);
+      toast.success("Course added");
     } catch (err) {
       console.error(err);
-      setError("Failed to add course");
+      toast.error("Failed to add course");
     }
   }
 
@@ -263,9 +270,10 @@ export default function DashboardPage() {
     try {
       await deleteCourse(token, id);
       setCourses(await getCourses());
+      toast.success("Course deleted");
     } catch (err) {
       console.error(err);
-      setError("Failed to delete course");
+      toast.error("Failed to delete course");
     }
   }
 
@@ -281,10 +289,10 @@ export default function DashboardPage() {
       });
       setBlogs(await getBlogs());
       setNewBlogTitle(""); setNewBlogSlug(""); setNewBlogContent("");
-      setError(null);
+      toast.success("Blog post added");
     } catch (err) {
       console.error(err);
-      setError("Failed to add blog post");
+      toast.error("Failed to add blog post");
     }
   }
 
@@ -294,37 +302,38 @@ export default function DashboardPage() {
     try {
       await deleteBlog(token, id);
       setBlogs(await getBlogs());
+      toast.success("Blog post deleted");
     } catch (err) {
       console.error(err);
-      setError("Failed to delete blog post");
+      toast.error("Failed to delete blog post");
     }
   }
 
   if (authLoading) {
     return (
-      <Container className="cv-page text-center py-5">
-        <Spinner animation="border" role="status" />
+      <Container className="cv-page py-5">
+        <PageSkeleton />
       </Container>
     );
   }
   if (!user) return null;
 
   const navItems: { key: Section; label: string }[] = [
-    { key: "profile", label: "Profile" },
-    { key: "experience", label: "Experience" },
-    { key: "education", label: "Education" },
-    { key: "skills", label: "Skills" },
-    { key: "projects", label: "Projects" },
-    { key: "courses", label: "Courses" },
+    { key: "profile", label: "Perfil" },
+    { key: "experience", label: "Experiencia" },
+    { key: "education", label: "Educación" },
+    { key: "skills", label: "Habilidades" },
+    { key: "projects", label: "Proyectos" },
+    { key: "courses", label: "Cursos" },
     { key: "blog", label: "Blog" },
   ];
 
   return (
     <Container className="cv-page">
       <section className="cv-hero mb-5">
-        <span className="eyebrow">Admin panel</span>
+        <span className="eyebrow">Administración</span>
         <h1 className="display-cv">Dashboard.</h1>
-        <p className="lead-cv">Manage your CV content — all sections in one place.</p>
+        <p className="lead-cv">Gestiona todo el contenido de tu CV profesional en un solo lugar.</p>
       </section>
 
       {error && <Alert variant="danger" dismissible onClose={() => setError(null)}>{error}</Alert>}
@@ -351,12 +360,15 @@ export default function DashboardPage() {
           {activeSection === "profile" && (
             <Card>
               <Card.Body className="p-4">
-                <span className="eyebrow">Personal info</span>
-                <Card.Title className="section-heading h2 mb-4">Profile</Card.Title>
+                <span className="eyebrow">Información personal</span>
+                <Card.Title className="section-heading h2 mb-4">Perfil</Card.Title>
                 {profile ? (
                   <ProfileForm profile={profile} onSave={handleSaveProfile} />
                 ) : (
-                  <Alert variant="info">No profile yet. Create one to get started.</Alert>
+                  <Alert variant="info">
+                    <Alert.Heading>Sin perfil aún</Alert.Heading>
+                    <p className="mb-0">Completa el formulario y haz clic en "Guardar Perfil" para crear uno.</p>
+                  </Alert>
                 )}
               </Card.Body>
             </Card>
@@ -367,28 +379,28 @@ export default function DashboardPage() {
             <>
               <Card className="mb-4">
                 <Card.Body className="p-4">
-                  <span className="eyebrow">Career</span>
-                  <Card.Title className="section-heading h2 mb-4">Add Experience</Card.Title>
+                  <span className="eyebrow">Trayectoria</span>
+                  <Card.Title className="section-heading h2 mb-4">Añadir Experiencia</Card.Title>
                   <div className="control-panel">
                     <Row className="g-3">
                       <Col md={6}>
-                        <Form.Label>Company</Form.Label>
-                        <Form.Control value={newExpCompany} onChange={(e) => setNewExpCompany(e.target.value)} placeholder="Company name" />
+                        <Form.Label>Empresa</Form.Label>
+                        <Form.Control value={newExpCompany} onChange={(e) => setNewExpCompany(e.target.value)} placeholder="Nombre de la empresa" />
                       </Col>
                       <Col md={6}>
-                        <Form.Label>Role</Form.Label>
-                        <Form.Control value={newExpRole} onChange={(e) => setNewExpRole(e.target.value)} placeholder="Job title" />
+                        <Form.Label>Rol</Form.Label>
+                        <Form.Control value={newExpRole} onChange={(e) => setNewExpRole(e.target.value)} placeholder="Título del puesto" />
                       </Col>
                       <Col md={6}>
-                        <Form.Label>Start Date</Form.Label>
+                        <Form.Label>Fecha de inicio</Form.Label>
                         <Form.Control type="date" value={newExpStart} onChange={(e) => setNewExpStart(e.target.value)} />
                       </Col>
                       <Col md={12}>
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control as="textarea" rows={2} value={newExpDesc} onChange={(e) => setNewExpDesc(e.target.value)} placeholder="Describe your role" />
+                        <Form.Label>Descripción</Form.Label>
+                        <Form.Control as="textarea" rows={2} value={newExpDesc} onChange={(e) => setNewExpDesc(e.target.value)} placeholder="Describe tu rol" />
                       </Col>
                       <Col md={12}>
-                        <Button onClick={handleAddExperience} variant="primary">Add Experience</Button>
+                        <Button onClick={handleAddExperience} variant="primary">Añadir Experiencia</Button>
                       </Col>
                     </Row>
                   </div>
@@ -396,7 +408,7 @@ export default function DashboardPage() {
               </Card>
               <Card>
                 <Card.Body className="p-4">
-                  <Card.Title className="section-heading h3 mb-3">Existing Experience</Card.Title>
+                  <Card.Title className="section-heading h3 mb-3">Experiencia Existente</Card.Title>
                   {experiences.length > 0 ? (
                     <div className="timeline-list">
                       {experiences.map((exp) => (
@@ -410,7 +422,11 @@ export default function DashboardPage() {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-muted mb-0">No experience added yet</p>
+                      <EmptyState
+                      icon="💼"
+                      title="Sin experiencia aún"
+                      description="Añade tu primera experiencia laboral usando el formulario de arriba."
+                    />
                   )}
                 </Card.Body>
               </Card>
@@ -422,28 +438,28 @@ export default function DashboardPage() {
             <>
               <Card className="mb-4">
                 <Card.Body className="p-4">
-                  <span className="eyebrow">Education</span>
-                  <Card.Title className="section-heading h2 mb-4">Add Education</Card.Title>
+                  <span className="eyebrow">Formación</span>
+                  <Card.Title className="section-heading h2 mb-4">Añadir Educación</Card.Title>
                   <div className="control-panel">
                     <Row className="g-3">
                       <Col md={6}>
-                        <Form.Label>Institution</Form.Label>
-                        <Form.Control value={newInst} onChange={(e) => setNewInst(e.target.value)} placeholder="University / School" />
+                        <Form.Label>Institución</Form.Label>
+                        <Form.Control value={newInst} onChange={(e) => setNewInst(e.target.value)} placeholder="Universidad / Escuela" />
                       </Col>
                       <Col md={6}>
-                        <Form.Label>Degree</Form.Label>
-                        <Form.Control value={newDegree} onChange={(e) => setNewDegree(e.target.value)} placeholder="Degree / Major" />
+                        <Form.Label>Título</Form.Label>
+                        <Form.Control value={newDegree} onChange={(e) => setNewDegree(e.target.value)} placeholder="Ingeniería / Carrera" />
                       </Col>
                       <Col md={6}>
-                        <Form.Label>Year</Form.Label>
-                        <Form.Control value={newYear} onChange={(e) => setNewYear(e.target.value)} placeholder="e.g. 2020-2023" />
+                        <Form.Label>Año</Form.Label>
+                        <Form.Control value={newYear} onChange={(e) => setNewYear(e.target.value)} placeholder="Ej: 2020-2023" />
                       </Col>
                       <Col md={12}>
-                        <Form.Label>Description</Form.Label>
+                        <Form.Label>Descripción</Form.Label>
                         <Form.Control as="textarea" rows={2} value={newEduDesc} onChange={(e) => setNewEduDesc(e.target.value)} />
                       </Col>
                       <Col md={12}>
-                        <Button onClick={handleAddEducation} variant="primary">Add Education</Button>
+                        <Button onClick={handleAddEducation} variant="primary">Añadir Educación</Button>
                       </Col>
                     </Row>
                   </div>
@@ -451,7 +467,7 @@ export default function DashboardPage() {
               </Card>
               <Card>
                 <Card.Body className="p-4">
-                  <Card.Title className="section-heading h3 mb-3">Existing Education</Card.Title>
+                  <Card.Title className="section-heading h3 mb-3">Educación Existente</Card.Title>
                   {educationList.length > 0 ? (
                     <div className="timeline-list">
                       {educationList.map((edu) => (
@@ -465,7 +481,11 @@ export default function DashboardPage() {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-muted mb-0">No education added yet</p>
+                    <EmptyState
+                      icon="🎓"
+                      title="Sin formación añadida"
+                      description="Agrega tu historial educativo usando el formulario de arriba."
+                    />
                   )}
                 </Card.Body>
               </Card>
@@ -477,24 +497,24 @@ export default function DashboardPage() {
             <>
               <Card className="mb-4">
                 <Card.Body className="p-4">
-                  <span className="eyebrow">Skills</span>
-                  <Card.Title className="section-heading h2 mb-4">Add Skill</Card.Title>
+                  <span className="eyebrow">Habilidades</span>
+                  <Card.Title className="section-heading h2 mb-4">Añadir Habilidad</Card.Title>
                   <div className="control-panel">
                     <Row className="g-3">
                       <Col md={4}>
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control value={newSkillName} onChange={(e) => setNewSkillName(e.target.value)} placeholder="e.g. React" />
+                        <Form.Label>Nombre</Form.Label>
+                        <Form.Control value={newSkillName} onChange={(e) => setNewSkillName(e.target.value)} placeholder="Ej: React" />
                       </Col>
                       <Col md={4}>
-                        <Form.Label>Category</Form.Label>
-                        <Form.Control value={newSkillCat} onChange={(e) => setNewSkillCat(e.target.value)} placeholder="e.g. Frontend" />
+                        <Form.Label>Categoría</Form.Label>
+                        <Form.Control value={newSkillCat} onChange={(e) => setNewSkillCat(e.target.value)} placeholder="Ej: Frontend" />
                       </Col>
                       <Col md={4}>
-                        <Form.Label>Level (0-100)</Form.Label>
+                        <Form.Label>Nivel (0-100)</Form.Label>
                         <Form.Control type="number" min={0} max={100} value={newSkillLevel} onChange={(e) => setNewSkillLevel(Number(e.target.value))} />
                       </Col>
                       <Col md={12}>
-                        <Button onClick={handleAddSkill} variant="primary">Add Skill</Button>
+                        <Button onClick={handleAddSkill} variant="primary">Añadir Habilidad</Button>
                       </Col>
                     </Row>
                   </div>
@@ -502,7 +522,7 @@ export default function DashboardPage() {
               </Card>
               <Card>
                 <Card.Body className="p-4">
-                  <Card.Title className="section-heading h3 mb-3">Existing Skills</Card.Title>
+                  <Card.Title className="section-heading h3 mb-3">Habilidades Existentes</Card.Title>
                   {skills.length > 0 ? (
                     <div className="d-flex flex-wrap gap-2">
                       {skills.map((s) => (
@@ -513,7 +533,11 @@ export default function DashboardPage() {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-muted mb-0">No skills added yet</p>
+                    <EmptyState
+                      icon="🛠️"
+                      title="Sin habilidades aún"
+                      description="Agrega tus habilidades usando el formulario de arriba."
+                    />
                   )}
                 </Card.Body>
               </Card>
@@ -525,24 +549,24 @@ export default function DashboardPage() {
             <>
               <Card className="mb-4">
                 <Card.Body className="p-4">
-                  <span className="eyebrow">Portfolio</span>
-                  <Card.Title className="section-heading h2 mb-4">Add Project</Card.Title>
+                  <span className="eyebrow">Portafolio</span>
+                  <Card.Title className="section-heading h2 mb-4">Añadir Proyecto</Card.Title>
                   <div className="control-panel">
                     <Row className="g-3">
                       <Col md={6}>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control value={newProjTitle} onChange={(e) => setNewProjTitle(e.target.value)} placeholder="Project name" />
+                        <Form.Label>Título</Form.Label>
+                        <Form.Control value={newProjTitle} onChange={(e) => setNewProjTitle(e.target.value)} placeholder="Nombre del proyecto" />
                       </Col>
                       <Col md={6}>
-                        <Form.Label>Demo URL</Form.Label>
+                        <Form.Label>URL Demo</Form.Label>
                         <Form.Control value={newProjUrl} onChange={(e) => setNewProjUrl(e.target.value)} placeholder="https://..." />
                       </Col>
                       <Col md={12}>
-                        <Form.Label>Description</Form.Label>
+                        <Form.Label>Descripción</Form.Label>
                         <Form.Control as="textarea" rows={2} value={newProjDesc} onChange={(e) => setNewProjDesc(e.target.value)} />
                       </Col>
                       <Col md={12}>
-                        <Button onClick={handleAddProject} variant="primary">Add Project</Button>
+                        <Button onClick={handleAddProject} variant="primary">Añadir Proyecto</Button>
                       </Col>
                     </Row>
                   </div>
@@ -550,7 +574,7 @@ export default function DashboardPage() {
               </Card>
               <Card>
                 <Card.Body className="p-4">
-                  <Card.Title className="section-heading h3 mb-3">Existing Projects</Card.Title>
+                  <Card.Title className="section-heading h3 mb-3">Proyectos Existentes</Card.Title>
                   {projects.length > 0 ? (
                     <div className="timeline-list">
                       {projects.map((p) => (
@@ -564,7 +588,11 @@ export default function DashboardPage() {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-muted mb-0">No projects added yet</p>
+                    <EmptyState
+                      icon="📁"
+                      title="Sin proyectos aún"
+                      description="Muestra tu trabajo añadiendo proyectos arriba."
+                    />
                   )}
                 </Card.Body>
               </Card>
@@ -576,24 +604,24 @@ export default function DashboardPage() {
             <>
               <Card className="mb-4">
                 <Card.Body className="p-4">
-                  <span className="eyebrow">Learning</span>
-                  <Card.Title className="section-heading h2 mb-4">Add Course</Card.Title>
+                  <span className="eyebrow">Aprendizaje</span>
+                  <Card.Title className="section-heading h2 mb-4">Añadir Curso</Card.Title>
                   <div className="control-panel">
                     <Row className="g-3">
                       <Col md={6}>
-                        <Form.Label>Course Title</Form.Label>
-                        <Form.Control value={newCourseTitle} onChange={(e) => setNewCourseTitle(e.target.value)} placeholder="Course name" />
+                        <Form.Label>Título</Form.Label>
+                        <Form.Control value={newCourseTitle} onChange={(e) => setNewCourseTitle(e.target.value)} placeholder="Nombre del curso" />
                       </Col>
                       <Col md={6}>
-                        <Form.Label>Platform</Form.Label>
-                        <Form.Control value={newCoursePlat} onChange={(e) => setNewCoursePlat(e.target.value)} placeholder="e.g. Udemy, Coursera" />
+                        <Form.Label>Plataforma</Form.Label>
+                        <Form.Control value={newCoursePlat} onChange={(e) => setNewCoursePlat(e.target.value)} placeholder="Ej: Udemy, Coursera" />
                       </Col>
                       <Col md={12}>
-                        <Form.Label>Certificate URL</Form.Label>
+                        <Form.Label>URL Certificado</Form.Label>
                         <Form.Control value={newCourseCert} onChange={(e) => setNewCourseCert(e.target.value)} placeholder="https://..." />
                       </Col>
                       <Col md={12}>
-                        <Button onClick={handleAddCourse} variant="primary">Add Course</Button>
+                        <Button onClick={handleAddCourse} variant="primary">Añadir Curso</Button>
                       </Col>
                     </Row>
                   </div>
@@ -601,7 +629,7 @@ export default function DashboardPage() {
               </Card>
               <Card>
                 <Card.Body className="p-4">
-                  <Card.Title className="section-heading h3 mb-3">Existing Courses</Card.Title>
+                  <Card.Title className="section-heading h3 mb-3">Cursos Existentes</Card.Title>
                   {courses.length > 0 ? (
                     <div className="timeline-list">
                       {courses.map((c) => (
@@ -615,7 +643,11 @@ export default function DashboardPage() {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-muted mb-0">No courses added yet</p>
+                    <EmptyState
+                      icon="📚"
+                      title="Sin cursos aún"
+                      description="Añade tus cursos completados y certificaciones arriba."
+                    />
                   )}
                 </Card.Body>
               </Card>
@@ -627,24 +659,24 @@ export default function DashboardPage() {
             <>
               <Card className="mb-4">
                 <Card.Body className="p-4">
-                  <span className="eyebrow">Articles</span>
-                  <Card.Title className="section-heading h2 mb-4">Add Blog Post</Card.Title>
+                  <span className="eyebrow">Artículos</span>
+                  <Card.Title className="section-heading h2 mb-4">Añadir Artículo</Card.Title>
                   <div className="control-panel">
                     <Row className="g-3">
                       <Col md={6}>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control value={newBlogTitle} onChange={(e) => setNewBlogTitle(e.target.value)} placeholder="Post title" />
+                        <Form.Label>Título</Form.Label>
+                        <Form.Control value={newBlogTitle} onChange={(e) => setNewBlogTitle(e.target.value)} placeholder="Título del post" />
                       </Col>
                       <Col md={6}>
                         <Form.Label>Slug</Form.Label>
-                        <Form.Control value={newBlogSlug} onChange={(e) => setNewBlogSlug(e.target.value)} placeholder="my-post-slug" />
+                        <Form.Control value={newBlogSlug} onChange={(e) => setNewBlogSlug(e.target.value)} placeholder="mi-post-slug" />
                       </Col>
                       <Col md={12}>
-                        <Form.Label>Content (Markdown)</Form.Label>
-                        <Form.Control as="textarea" rows={5} value={newBlogContent} onChange={(e) => setNewBlogContent(e.target.value)} placeholder="Write your post in markdown..." />
+                        <Form.Label>Contenido (Markdown)</Form.Label>
+                        <Form.Control as="textarea" rows={5} value={newBlogContent} onChange={(e) => setNewBlogContent(e.target.value)} placeholder="Escribe tu artículo en markdown..." />
                       </Col>
                       <Col md={12}>
-                        <Button onClick={handleAddBlog} variant="primary">Add Post</Button>
+                        <Button onClick={handleAddBlog} variant="primary">Publicar Artículo</Button>
                       </Col>
                     </Row>
                   </div>
@@ -652,7 +684,7 @@ export default function DashboardPage() {
               </Card>
               <Card>
                 <Card.Body className="p-4">
-                  <Card.Title className="section-heading h3 mb-3">Existing Posts</Card.Title>
+                  <Card.Title className="section-heading h3 mb-3">Artículos Existentes</Card.Title>
                   {blogs.length > 0 ? (
                     <div className="timeline-list">
                       {blogs.map((post) => (
@@ -666,7 +698,11 @@ export default function DashboardPage() {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-muted mb-0">No blog posts yet</p>
+                    <EmptyState
+                      icon="✍️"
+                      title="Sin artículos aún"
+                      description="Empieza a escribir y comparte tu conocimiento."
+                    />
                   )}
                 </Card.Body>
               </Card>
