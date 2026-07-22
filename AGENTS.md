@@ -83,3 +83,33 @@ src/
 - Test files live in `src/test/` mirroring `src/` structure
 - `src/test/services/auth.service.test.ts` — tests login function with mocked Axios
 - `src/test/services/profile.service.test.ts` — tests profile CRUD with mocked Axios
+
+## Deploy (Docker - VPS)
+
+### Estructura en el servidor
+```
+/srv/portafolio-frontend/
+├── (código clonado)
+├── .env.local          ← NEXT_PUBLIC_API_URL=http://<IP_DEL_BACKEND>:8000
+└── docker-compose.yml
+```
+
+### docker-compose.yml (crear en el VPS)
+```yaml
+services:
+  frontend:
+    build: .
+    container_name: portafolio-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file: .env.local
+```
+
+### Comandos de deploy
+```bash
+cd /srv/portafolio-frontend
+git pull
+docker compose build --no-cache
+docker compose up -d --force-recreate
+```

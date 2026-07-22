@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.gitignore
+*.md
+.DS_Store
+.vs
+.agents
+.interface-design
+cv-screenshot*.png
+dev-*.log
+out
