@@ -70,6 +70,8 @@ src/
 
 ## Key Known Issues & Quirks
 - `src/app/page.tsx` loads all CV sections using service layer functions (no longer hardcodes profile IDs)
+- **Dashboard loads all data in `Promise.all`** — each non-essential endpoint now has `.catch(() => [])` to prevent any single endpoint failure from blocking the entire dashboard.
+- **Nginx at `/api/` strips the prefix** — FastAPI backend receives paths like `/experience/`, `/skills/`, etc. Nginx rewrites `/api(/.*)$` → `$1` before proxying to `localhost:8000`.
 - Bootstrap CSS imported globally in `layout.tsx`; components use `react-bootstrap`
 - Tailwind installed but not imported — custom CSS in `globals.css` handles all styling
 - `/Detras.png` and `/logo.png` referenced but missing from `public/`

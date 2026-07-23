@@ -77,12 +77,12 @@ export default function DashboardPage() {
       try {
         const [p, ex, ed, sk, pr, co, bl] = await Promise.all([
           getProfile().catch(() => null),
-          getExperience(),
-          getEducation(),
-          getSkills(),
-          getProjects(),
-          getCourses(),
-          getBlogs(),
+          getExperience().catch(() => [] as Experience[]),
+          getEducation().catch(() => [] as Education[]),
+          getSkills().catch(() => [] as Skill[]),
+          getProjects().catch(() => [] as Project[]),
+          getCourses().catch(() => [] as Course[]),
+          getBlogs().catch(() => [] as Blog[]),
         ]);
         setProfile(p);
         setExperiences(ex);
